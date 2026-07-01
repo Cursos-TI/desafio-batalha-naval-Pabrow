@@ -1,40 +1,69 @@
 #include <stdio.h>
 
-// Desafio Batalha Naval - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
-// Siga os comentários para implementar cada parte do desafio.
+int main(){
+    int tabuleiro[10][10]={
+        {0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0},
+    };//tabuleiro de 10x10 inicializado com zeros
 
-int main() {
-    // Nível Novato - Posicionamento dos Navios
-    // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
-    // Sugestão: Posicione dois navios no tabuleiro, um verticalmente e outro horizontalmente.
-    // Sugestão: Utilize `printf` para exibir as coordenadas de cada parte dos navios.
+    int navios[3][6]={ 
+        {2, 3, 3, 3, 4, 3},
+        {9, 1, 9, 2, 9, 3},
+        {7, 1, 8, 1, 9, 1}
+    };//array declarando ONDE vai ficar o navio, as duas primeiras varíaveis são as coordenadas iniciais e a as duas ultimas são as coordenadas finais.
 
-    // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
-    // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
-    // Sugestão: Posicione quatro navios no tabuleiro, incluindo dois na diagonal.
-    // Sugestão: Exiba o tabuleiro completo no console, mostrando 0 para posições vazias e 3 para posições ocupadas.
-
-    // Nível Mestre - Habilidades Especiais com Matrizes
-    // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
-    // Sugestão: Utilize estruturas de repetição aninhadas para preencher as áreas afetadas por essas habilidades no tabuleiro.
-    // Sugestão: Exiba o tabuleiro com as áreas afetadas, utilizando 0 para áreas não afetadas e 1 para áreas atingidas.
-
-    // Exemplos de exibição das habilidades:
-    // Exemplo para habilidade em cone:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 1 1 1 1 1
+    //botador de navios no tabuleiro
+    //fazer um FOR que vai rodar a quantidade de linhas do array navios(ou seja, quantidade de navios) e vai colocar o valor 3 no tabuleiro na posição do navio, para indicar que tem um navio naquela posição
     
-    // Exemplo para habilidade em octaedro:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 0 0 1 0 0
+    int tamanho = sizeof(navios) / sizeof(navios[0]);
+    for(int i=0;i<tamanho;i++){
+        for(int j=0;j<6;j+=2){
+            if(tabuleiro[navios[i][j]][navios[i][j+1]]==0){
+                tabuleiro[navios[i][j]][navios[i][j+1]]=3;                
+            }else{
+                printf("Erro: posição (%d, %d) já ocupada por outro navio.\n", navios[i][j], navios[i][j+1]);
+              
+                return 1;
+            }
+        }
+    }
 
-    // Exemplo para habilidade em cruz:
-    // 0 0 1 0 0
-    // 1 1 1 1 1
-    // 0 0 1 0 0
+    char letras[10]={'A','B','C','D','E','F','G','H','I','J'};//array de letras para printar o tabuleiro
 
-    return 0;
+    for(int i=-1; i<10; i++){//impressora de tabuleiro
+        for(int j=-1; j<10; j++){
+            if(i==-1){//percorre a primeira linha do tabuleiro, que é a linha das letras
+                if(j==-1){
+                    printf("   ");
+                }else{
+                    printf("%c ", letras[j]);
+                }                
+            }else{
+                if(j==-1){//percorre a primeira coluna do tabuleiro, que é a coluna dos números
+                    if(i==-1){
+                        printf("  ");
+                    }else if(i==9){
+                        printf("%d ", i+1);
+                    }else{
+                        printf(" %d ", i+1);
+                    }
+                }else{//percorre o restante do tabuleiro, preenchendo com 0 ou 3 dependendo se tem navio na posição
+                    if(tabuleiro[i][j]==0){
+                        printf("0 ");
+                    }else{
+                        printf("3 ");
+                    }
+                }
+            }            
+        }
+        printf("\n");//dá o espaçamento necessário entre as linhas do tabuleiro
+    }
 }
